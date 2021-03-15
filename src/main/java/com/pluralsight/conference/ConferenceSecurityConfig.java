@@ -35,28 +35,27 @@ public class ConferenceSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
                 //.antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/anonymous*").anonymous()
                 .antMatchers("/login*").permitAll()
-                .antMatchers("/account*").permitAll()
-                .antMatchers("/password*").permitAll()
                 .antMatchers("/assets/css/**", "assets/js/**", "/images/**").permitAll()
                 .antMatchers("/index*").permitAll()
+                .antMatchers("/account*").permitAll()
+                .antMatchers("/password*").permitAll()
                 .anyRequest().authenticated()
-
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
                 .failureUrl("/login?error=true")
-                .permitAll()
+                //.permitAll()
                 .defaultSuccessUrl("/", true)
-
                 .and()
-                .rememberMe()
-                .key("superSecretKey")
-                .tokenRepository(tokenRepository())
+               .rememberMe()
+               .key("superSecretKey")
+               .tokenRepository(tokenRepository())
 
                 .and()
                 .logout()
@@ -65,6 +64,8 @@ public class ConferenceSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .permitAll();
+
+
 
     }
 
@@ -77,8 +78,9 @@ public class ConferenceSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        //auth.inMemoryAuthentication()
-        //        .withUser("bryan").password(passwordEncoder().encode("pass")).roles("USER");
+       // auth.inMemoryAuthentication()
+          //   .withUser("bryan").password(passwordEncoder().encode("pass")).roles("USER");
+
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder());
@@ -95,7 +97,8 @@ public class ConferenceSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordAttribute("userPassword")
                 .and()
                 .userDetailsContextMapper(ctxMapper);
-                */
+
+         */
 
     }
 

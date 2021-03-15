@@ -26,6 +26,7 @@ public class ConferenceUserDetailsContextMapper implements UserDetailsContextMap
     private static final String loadUserByUsernameQuery = "select username, password, " +
             "enabled, nickname from users where username = ?";
 
+
     @Override
     public UserDetails mapUserFromContext(DirContextOperations dirContextOperations, String s, Collection<? extends GrantedAuthority> collection) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -46,6 +47,7 @@ public class ConferenceUserDetailsContextMapper implements UserDetailsContextMap
 
         return userDetails;
     }
+
 
     @Override
     public void mapUserToContext(UserDetails userDetails, DirContextAdapter dirContextAdapter) {
